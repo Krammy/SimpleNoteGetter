@@ -12,15 +12,30 @@ note_list = sn.get_note_list(data=True)[0]
 
 # https://simplenotepy.readthedocs.io/en/latest/api.html#simperium-api-note-object
 
-for note in note_list:
-    if note["deleted"] == True:
-        continue
-    # get creation date
-    timedate = datetime.fromtimestamp(note["createdate"])
+def get_note_path(epoch_time):
+    timedate = datetime.fromtimestamp(epoch_time)
     note_id = timedate.strftime('%Y%m%d%H%M')
     file_name = note_id + " - .md"
     file_location = os.path.join(settings["output"], file_name)
-    with open(file_location, 'w') as new_note:
+    return file_location
+
+for note in note_list:
+    if note["deleted"] == True:
+        continue
+
+    # get creation date
+    epoch_time = note["createdate"]
+    note_path = get_note_path(epoch_time)
+
+    # avoid overriding existing file if one exists
+    while os.path.exists(note_path):
+        epoch_time += 60 # add one minute to time
+        note_path = get_note_path(epoch_time)
+    
+    # create markdown file
+    with open(note_path, 'w') as new_note:
         new_note.write(note["content"])
+    
     # delete note
     sn.trash_note(note["key"])
+
