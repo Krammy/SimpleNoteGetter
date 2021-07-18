@@ -49,13 +49,13 @@ def get_note_text(content, tags):
     # this makes it faster to add a tag in Obsidian.
     if tags_string == "":
         tags_string = "#"
-    
+
     content = tags_string + "\n\n" + content
     return content
 
 def get_note_name(content):
     note_name = content.partition("\n")[0]
-    illegal_characters = ['*', '"', '”', '\\', '/', '<', '>', ':', '|', '?']
+    illegal_characters = ['*', '"', '\\', '/', '<', '>', ':', '|', '?']
 
     for character in illegal_characters:
         note_name = note_name.replace(character, '')
@@ -65,17 +65,35 @@ def get_note_name(content):
     
     return note_name
 
+
+def fix_content(content):
+    # replaces weird characters with equivalent characters.
+    replacements = [
+        ("’", "'"),
+        ("‘", "'"),
+        ('”', '"'),
+        ('“', '"')
+    ]
+
+    for replacement in replacements:
+        content = content.replace(replacement[0], replacement[1])
+    
+    return content
+
 for note in note_list:
     if note["deleted"] == True:
         continue
 
     # get creation date
     epoch_time = note["createdate"]
-    note_path = get_note_path(epoch_time, get_note_name(note["content"]))
+
+    content = fix_content(note["content"])
+
+    note_path = get_note_path(epoch_time, get_note_name(content))
 
     # create markdown file
     with open(note_path, 'w') as new_note:
-        new_note.write(get_note_text(note["content"], note["tags"]))
+        new_note.write(get_note_text(content, note["tags"]))
     
     # delete note
     sn.trash_note(note["key"])
