@@ -45,6 +45,11 @@ def get_note_text(content, tags):
     # not sure if this would work if there are no tags.
     tags_string = tags_string[:-1]
 
+    # add "#" if tags_string is empty
+    # this makes it faster to add a tag in Obsidian.
+    if tags_string == "":
+        tags_string = "#"
+    
     content = tags_string + "\n\n" + content
     return content
 
