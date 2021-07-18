@@ -22,4 +22,5 @@ for note in note_list:
     file_location = os.path.join(settings["output"], file_name)
     with open(file_location, 'w') as new_note:
         new_note.write(note["content"])
-
+    # delete note
+    sn.trash_note(note["key"])
