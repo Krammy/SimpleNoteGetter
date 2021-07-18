@@ -19,6 +19,30 @@ def get_note_path(epoch_time):
     file_location = os.path.join(settings["output"], file_name)
     return file_location
 
+def get_note_text(content, tags):
+    # turns first line into a header if one exists
+    if content[0] != "\n" and content[:2] != "# ":
+        content = "# " + content
+    
+    # adds new line after header
+    partition = content.partition("\n")
+
+    if partition[2][0] != "\n":
+        # only add a new line if new line is not already there
+        content = partition[0] + partition[1] + partition[1] + partition[2]
+
+    # add tags to the top of the note
+    tags_string = ""
+    for tag in tags:
+        tags_string += "#" + tag + " "
+    
+    # remove last space
+    # not sure if this would work if there are no tags.
+    tags_string = tags_string[:-1]
+
+    content = tags_string + "\n\n" + content
+    return content
+
 for note in note_list:
     if note["deleted"] == True:
         continue
@@ -31,10 +55,10 @@ for note in note_list:
     while os.path.exists(note_path):
         epoch_time += 60 # add one minute to time
         note_path = get_note_path(epoch_time)
-    
+
     # create markdown file
     with open(note_path, 'w') as new_note:
-        new_note.write(note["content"])
+        new_note.write(get_note_text(note["content"], note["tags"]))
     
     # delete note
     sn.trash_note(note["key"])
