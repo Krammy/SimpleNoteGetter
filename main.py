@@ -12,11 +12,16 @@ note_list = sn.get_note_list(data=True)[0]
 
 # https://simplenotepy.readthedocs.io/en/latest/api.html#simperium-api-note-object
 
-def get_note_path(epoch_time):
+def get_note_path(epoch_time, name):
     timedate = datetime.fromtimestamp(epoch_time)
     note_id = timedate.strftime('%Y%m%d%H%M')
-    file_name = note_id + " - .md"
+    file_name = note_id + " - " + name + ".md"
     file_location = os.path.join(settings["output"], file_name)
+
+    if os.path.exists(file_location):
+        # add one minute to time
+        return get_note_path(epoch_time + 60, name)
+    
     return file_location
 
 def get_note_text(content, tags):
@@ -43,18 +48,25 @@ def get_note_text(content, tags):
     content = tags_string + "\n\n" + content
     return content
 
+def get_note_name(content):
+    note_name = content.partition("\n")[0]
+    illegal_characters = ['*', '"', '”', '\\', '/', '<', '>', ':', '|', '?']
+
+    for character in illegal_characters:
+        note_name = note_name.replace(character, '')
+
+    # remove any spaces at the end
+    note_name = note_name.rstrip()
+    
+    return note_name
+
 for note in note_list:
     if note["deleted"] == True:
         continue
 
     # get creation date
     epoch_time = note["createdate"]
-    note_path = get_note_path(epoch_time)
-
-    # avoid overriding existing file if one exists
-    while os.path.exists(note_path):
-        epoch_time += 60 # add one minute to time
-        note_path = get_note_path(epoch_time)
+    note_path = get_note_path(epoch_time, get_note_name(note["content"]))
 
     # create markdown file
     with open(note_path, 'w') as new_note:
