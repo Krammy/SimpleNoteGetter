@@ -72,7 +72,8 @@ def fix_content(content):
         ("’", "'"),
         ("‘", "'"),
         ('”', '"'),
-        ('“', '"')
+        ('“', '"'),
+        ("�", "--")
     ]
 
     for replacement in replacements:
