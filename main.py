@@ -82,7 +82,7 @@ def fix_content(content):
     return content
 
 for note in note_list:
-    if note["deleted"] == True:
+    if note["deleted"] == True or note["content"] == "":
         continue
 
     # get creation date
