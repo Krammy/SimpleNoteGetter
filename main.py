@@ -45,34 +45,29 @@ def get_tags_string(tags):
     return tags_string
 
 def get_note_text(content, tags):
-
+    
     title = get_title(content)
     body = get_body(content)
     tags_string = get_tags_string(tags)
 
-    if tags_string == "" and title == "" and body == "":
-        return ""
+    note_text = ""
+
+    if tags_string != "":
+        note_text += tags_string
+
+        if title != "" or body != "":
+            note_text += "\n\n"
     
-    if tags_string == "" and title == "" and body != "":
-        return body
+    if title != "":
+        note_text += title
 
-    if tags_string == "" and title != "" and body == "":
-        return "# " + title
-
-    if tags_string == "" and title != "" and body != "":
-        return "# " + title + "\n\n" + body
+        if body != "":
+            note_text += "\n\n"
     
-    if tags_string != "" and title == "" and body == "":
-        return tags_string
+    if body != "":
+        note_text += body
 
-    if tags_string != "" and title == "" and body != "":
-        return tags_string + "\n\n" + body
-
-    if tags_string != "" and title != "" and body == "":
-        return tags_string + "\n\n" + title
-
-    return tags_string + "\n\n# " + title + "\n\n" + body
-
+    return note_text
 
 def get_note_name(content):
     note_name = content.partition("\n")[0]
