@@ -56,6 +56,9 @@ def get_note_text(content, tags):
     if tags_string == "" and title == "" and body != "":
         return body
     
+    if tags_string != "" and title == "" and body != "":
+        return tags_string + "\n\n" + body
+
     if tags_string == "" and title != "" and body != "":
         return "# " + title + "\n\n" + body
     
