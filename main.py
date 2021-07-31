@@ -24,18 +24,15 @@ def get_note_path(epoch_time, name):
     
     return file_location
 
-def get_note_text(content, tags):
-    # turns first line into a header if one exists
-    if content[0] != "\n" and content[:2] != "# ":
-        content = "# " + content
-    
-    # adds new line after header
+def get_title(content):
+    return content.partition("\n")[0]
+
+def get_body(content):
     partition = content.partition("\n")
+    # removes trailing new lines before and after
+    return partition[2].rstrip() 
 
-    if partition[2][0] != "\n":
-        # only add a new line if new line is not already there
-        content = partition[0] + partition[1] + partition[1] + partition[2]
-
+def get_tags_string(tags):
     # add tags to the top of the note
     tags_string = ""
     for tag in tags:
@@ -45,13 +42,25 @@ def get_note_text(content, tags):
     # not sure if this would work if there are no tags.
     tags_string = tags_string[:-1]
 
-    # add "#" if tags_string is empty
-    # this makes it faster to add a tag in Obsidian.
-    if tags_string == "":
-        tags_string = "#"
+    return tags_string
 
-    content = tags_string + "\n\n" + content
-    return content
+def get_note_text(content, tags):
+
+    title = get_title(content)
+    body = get_body(content)
+    tags_string = get_tags_string(tags)
+
+    if tags_string == "" and title == "" and body == "":
+        return ""
+    
+    if tags_string == "" and title == "" and body != "":
+        return body
+    
+    if tags_string == "" and title != "" and body != "":
+        return "# " + title + "\n\n" + body
+    
+    return tags_string + "\n\n# " + title + "\n\n" + body
+
 
 def get_note_name(content):
     note_name = content.partition("\n")[0]
