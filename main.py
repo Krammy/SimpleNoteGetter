@@ -30,7 +30,7 @@ def get_title(content):
 def get_body(content):
     partition = content.partition("\n")
     # removes trailing new lines before and after
-    return partition[2].rstrip() 
+    return partition[2].strip() 
 
 def get_tags_string(tags):
     # add tags to the top of the note
@@ -61,7 +61,7 @@ def get_note_text(content, tags):
 
     if tags_string == "" and title != "" and body != "":
         return "# " + title + "\n\n" + body
-    
+
     return tags_string + "\n\n# " + title + "\n\n" + body
 
 
