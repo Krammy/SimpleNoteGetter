@@ -59,7 +59,7 @@ def get_note_text(content, tags):
             note_text += "\n\n"
     
     if title != "":
-        note_text += title
+        note_text += "# " + title
 
         if body != "":
             note_text += "\n\n"
