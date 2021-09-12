@@ -1,6 +1,5 @@
 import os
-from note import get_note_id
-from note import get_title
+from note import get_title, get_note_id
 
 def get_fixed_content(content):
     # replaces weird characters with equivalent characters.
