@@ -41,5 +41,4 @@ def create_note(output, note):
     with open(note_path, 'w') as new_note:
         new_note.write(content)
 
-    print('Created note "' + note_title + '.md"')
-    
+    print('Created note "' + os.path.basename(note_path) + '"')
