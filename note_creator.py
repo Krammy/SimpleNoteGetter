@@ -35,7 +35,7 @@ def create_note(output, note):
     # get creation date
     content = get_fixed_content(note.content)
     note_title = get_title(content)
-    note_path = get_note_path(output, note.created_time, note_title)
+    note_path = get_note_path(output, note.creation_date, note_title)
 
     # create markdown file
     with open(note_path, 'w') as new_note:

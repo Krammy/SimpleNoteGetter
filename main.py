@@ -38,4 +38,4 @@ if __name__ == "__main__":
         # create note
         create_note(settings["output"], note)
         # trash note in simplenote
-        sn.trash_note(note["key"])
+        sn.trash_note(note.key)
