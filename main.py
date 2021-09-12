@@ -15,9 +15,12 @@ note_list = sn.get_note_list(data=True)[0]
 def get_note_path(epoch_time, name):
     timedate = datetime.fromtimestamp(epoch_time)
     note_id = timedate.strftime('%Y%m%d%H%M')
-    file_name = note_id + " - " + name + ".md"
+    if name == "":
+        file_name = note_id + ".md"
+    else:
+        file_name = note_id + " - " + name + ".md"
     file_location = os.path.join(settings["output"], file_name)
-
+    
     if os.path.exists(file_location):
         # add one minute to time
         return get_note_path(epoch_time + 60, name)
