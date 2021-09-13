@@ -21,7 +21,7 @@ def get_note_path(output, epoch_time, name):
     if name == "":
         file_name = note_id + ".md"
     else:
-        file_name = note_id + " - " + name + ".md"
+        file_name = note_id + " " + name + ".md"
     file_location = os.path.join(output, file_name)
     
     # avoids overriding existing files
