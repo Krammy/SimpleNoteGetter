@@ -1,20 +1,5 @@
 import os
-from note import get_title, get_note_id
-
-def get_fixed_content(content):
-    # replaces weird characters with equivalent characters.
-    replacements = [
-        ("’", "'"),
-        ("‘", "'"),
-        ('”', '"'),
-        ('“', '"'),
-        ("�", "--")
-    ]
-
-    for replacement in replacements:
-        content = content.replace(replacement[0], replacement[1])
-    
-    return content
+from note import get_note_id
 
 def get_note_path(output, epoch_time, name):
     note_id = get_note_id(epoch_time)
@@ -33,12 +18,10 @@ def get_note_path(output, epoch_time, name):
 
 def create_note(output, note):
     # get creation date
-    content = get_fixed_content(note.content)
-    note_title = get_title(content)
-    note_path = get_note_path(output, note.creation_date, note_title)
+    note_path = get_note_path(output, note.creation_date, note.title)
 
     # create markdown file
     with open(note_path, 'w') as new_note:
-        new_note.write(content)
+        new_note.write(note.content)
 
     print('Created note "' + os.path.basename(note_path) + '"')

@@ -34,11 +34,11 @@ def get_tags_string(tags):
 
     return tags_string
 
-def get_note_text(content):
+def get_note_text(content, tags):
     
     title = get_title(content)
     body = get_body(content)
-    tags_string = get_tags_string(content)
+    tags_string = get_tags_string(tags)
     
     note_text = ""
 
@@ -59,12 +59,28 @@ def get_note_text(content):
 
     return note_text
 
+def get_fixed_content(content):
+    # replaces weird characters with equivalent characters.
+    replacements = [
+        ("’", "'"),
+        ("‘", "'"),
+        ('”', '"'),
+        ('“', '"'),
+        ("�", "--")
+    ]
+
+    for replacement in replacements:
+        content = content.replace(replacement[0], replacement[1])
+    
+    return content
+
 class Note:
     def __init__(self, note):
         self.creation_date = note["createdate"]
+        
+        fixed_content = get_fixed_content(note["content"])
 
-        self.note_id = get_note_id(self.creation_date)
-        
-        self.content = note["content"]
+        self.title = get_title(fixed_content)
+        self.content = get_note_text(fixed_content, note["tags"])
+
         self.key = note["key"]
-        
