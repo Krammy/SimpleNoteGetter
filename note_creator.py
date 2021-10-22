@@ -21,7 +21,7 @@ def create_note(output, note):
     note_path = get_note_path(output, note.creation_date, note.title)
 
     # create markdown file
-    with open(note_path, 'w') as new_note:
+    with open(note_path, 'w', encoding='utf-8') as new_note:
         new_note.write(note.content)
 
     print('Created note "' + os.path.basename(note_path) + '"')

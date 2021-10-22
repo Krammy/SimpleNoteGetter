@@ -66,7 +66,7 @@ def get_fixed_content(content):
         ("‘", "'"),
         ('”', '"'),
         ('“', '"'),
-        ("�", "--")
+        ('—', '--')
     ]
 
     for replacement in replacements:
