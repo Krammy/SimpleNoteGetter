@@ -1,3 +1,4 @@
+import os
 import json
 import simplenote
 from datetime import datetime
@@ -12,9 +13,13 @@ def sort_by_creation_date(note):
 if __name__ == "__main__":
 
     print("Loading settings...")
-    with open('settings.json', 'r') as settings_file:
-        settings = json.load(settings_file)
 
+    script_dir = os.path.dirname(__file__)
+    settings_path = os.path.join(script_dir, 'settings.json')
+
+    with open(settings_path, 'r') as settings_file:
+        settings = json.load(settings_file)
+    
     print("Logging into Simplenote...")
     sn = simplenote.Simplenote(settings["user"], settings["password"])
 
