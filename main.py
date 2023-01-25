@@ -4,6 +4,7 @@ import simplenote
 from datetime import datetime
 from note_creator import create_note
 from note import Note
+from settings import settings
 
 # https://simplenotepy.readthedocs.io/en/latest/api.html#simperium-api-note-object
 
@@ -11,17 +12,8 @@ def sort_by_creation_date(note):
     return note.creation_date
 
 if __name__ == "__main__":
-
-    print("Loading settings...")
-
-    script_dir = os.path.dirname(__file__)
-    settings_path = os.path.join(script_dir, 'settings.json')
-
-    with open(settings_path, 'r') as settings_file:
-        settings = json.load(settings_file)
-    
     print("Logging into Simplenote...")
-    sn = simplenote.Simplenote(settings["user"], settings["password"])
+    sn = simplenote.Simplenote(settings.user, settings.password)
 
     print("Fetching notes...")
     simplenote_notes = sn.get_note_list(data=True)[0]

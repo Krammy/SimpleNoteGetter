@@ -1,10 +1,6 @@
 from datetime import datetime
 import os
 
-def get_note_id(creation_date):
-    timedate = datetime.fromtimestamp(creation_date)
-    return timedate.strftime('%Y%m%d%H%M')
-
 def get_title(content):
     note_title = content.partition("\n")[0]
     illegal_characters = ['*', '"', '\\', '/', '<', '>', ':', '|', '?']
@@ -76,7 +72,7 @@ def get_fixed_content(content):
 
 class Note:
     def __init__(self, note):
-        self.creation_date = note["createdate"]
+        self.creation_datetime = datetime.fromtimestamp(note["createdate"])
         
         fixed_content = get_fixed_content(note["content"])
 
