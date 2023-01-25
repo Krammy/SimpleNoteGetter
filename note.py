@@ -56,6 +56,9 @@ def get_note_text(content, tags):
     return note_text
 
 def get_fixed_content(content):
+    # removes weird new-lines with simple new-lines
+    content = content.replace('\r\n', '\n')
+
     # replaces weird characters with equivalent characters.
     replacements = [
         ("’", "'"),
