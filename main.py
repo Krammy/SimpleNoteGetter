@@ -8,8 +8,8 @@ from settings import settings
 
 # https://simplenotepy.readthedocs.io/en/latest/api.html#simperium-api-note-object
 
-def sort_by_creation_date(note):
-    return note.creation_date
+def sort_by_creation_date(note: Note):
+    return note.creation_datetime
 
 if __name__ == "__main__":
     print("Logging into Simplenote...")
@@ -33,6 +33,6 @@ if __name__ == "__main__":
     print("Creating " + str(len(my_notes)) + " notes...")
     for note in my_notes:
         # create note
-        create_note(settings["output"], note)
+        create_note(settings.output, note)
         # trash note in simplenote
         sn.trash_note(note.key)

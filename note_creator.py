@@ -12,7 +12,7 @@ def ID_exists(id: str):
     for dirpath, dirnames, filenames in os.walk(settings.search_dir):
         for filename in filenames:
             my_id = id_getter.search(filename)
-            if id == my_id:
+            if my_id != None and id == my_id.group():
                 return True
     return False
 
@@ -22,7 +22,7 @@ def get_note_path(output, dt: datetime, name):
     # avoids overriding existing files
     if ID_exists(note_id):
         dt += timedelta(minutes=1)
-        return get_note_path(dt, output)
+        return get_note_path(output, dt, name)
     
     if name == "":
         file_name = note_id + ".md"
@@ -41,3 +41,7 @@ def create_note(output, note: Note):
         new_note.write(note.content)
 
     print('Created note "' + os.path.basename(note_path) + '"')
+
+if __name__ == "__main__":
+    # check to see if this is working
+    print(ID_exists('202301242214'))
