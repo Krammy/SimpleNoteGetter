@@ -1,7 +1,7 @@
 import os, re
 from datetime import datetime, timedelta
-from settings import settings
-from note import Note
+from .settings import settings
+from .note import Note
 
 id_getter = re.compile(r'^\d{12}')
 
