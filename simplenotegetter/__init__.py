@@ -1,7 +1,4 @@
-import os
-import json
 import simplenote
-from datetime import datetime
 from note_creator import create_note
 from note import Note
 from settings import settings
@@ -11,13 +8,13 @@ from settings import settings
 def sort_by_creation_date(note: Note):
     return note.creation_datetime
 
-if __name__ == "__main__":
+def fetch_simplenote_notes():
     print("Logging into Simplenote...")
     sn = simplenote.Simplenote(settings.user, settings.password)
-
+    
     print("Fetching notes...")
     simplenote_notes = sn.get_note_list(data=True)[0]
-
+    
     my_notes = []
     
     # get all notes
@@ -25,14 +22,17 @@ if __name__ == "__main__":
         if note["deleted"] == True or note["content"] == "":
             continue
         my_notes.append(Note(note))
-
+    
     print("Sorting " + str(len(my_notes)) + " notes...")
     # sort notes list by creation date
     my_notes.sort(key = sort_by_creation_date)
-
+    
     print("Creating " + str(len(my_notes)) + " notes...")
     for note in my_notes:
         # create note
         create_note(settings.output, note)
         # trash note in simplenote
         sn.trash_note(note.key)
+
+if __name__ == "__main__":
+    fetch_simplenote_notes()
