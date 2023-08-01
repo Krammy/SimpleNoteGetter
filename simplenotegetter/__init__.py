@@ -1,15 +1,17 @@
 import simplenote
-from .note_creator import create_note
-from .note import Note
-from .settings import settings
+from simplenotegetter.note_creator import NoteCreator
+from simplenotegetter.note import Note
+from simplenotegetter.settings import Settings
 
 # https://simplenotepy.readthedocs.io/en/latest/api.html#simperium-api-note-object
 
 def sort_by_creation_date(note: Note):
     return note.creation_datetime
 
-def fetch_simplenote_notes():
+def fetch_simplenote_notes(settings_path):
     print("Logging into Simplenote...")
+    settings = Settings(settings_path)
+    
     sn = simplenote.Simplenote(settings.user, settings.password)
     
     print("Fetching notes...")
@@ -27,12 +29,14 @@ def fetch_simplenote_notes():
     # sort notes list by creation date
     my_notes.sort(key = sort_by_creation_date)
     
+    nc = NoteCreator(settings)
+    
     print("Creating " + str(len(my_notes)) + " notes...")
     for note in my_notes:
         # create note
-        create_note(settings.output, note)
+        nc.create_note(note)
         # trash note in simplenote
         sn.trash_note(note.key)
 
 if __name__ == "__main__":
-    fetch_simplenote_notes()
+    fetch_simplenote_notes('settings.json')

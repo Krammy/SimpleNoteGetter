@@ -1,11 +1,8 @@
-import os, json
+import json
 
 class Settings:
-    def __init__(self):
+    def __init__(self, settings_path):
         print("Loading settings...")
-        script_dir = os.path.dirname(__file__)
-        settings_path = os.path.join(script_dir, 'settings.json')
-
         with open(settings_path, 'r') as settings_file:
             settings = json.load(settings_file)
         
@@ -13,5 +10,3 @@ class Settings:
         self.password = settings['password']
         self.search_dir = settings['search_dir']
         self.output = settings['output']
-
-settings = Settings()
