@@ -1,4 +1,4 @@
-import simplenote
+import simplenote, os
 from simplenotegetter.note_creator import NoteCreator
 from simplenotegetter.note import Note
 from simplenotegetter.settings import Settings
@@ -39,4 +39,6 @@ def fetch_simplenote_notes(settings_path):
         sn.trash_note(note.key)
 
 if __name__ == "__main__":
-    fetch_simplenote_notes('settings.json')
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    settings_path = os.path.join(current_dir, 'settings.json')
+    fetch_simplenote_notes(settings_path)
