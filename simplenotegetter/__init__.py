@@ -32,6 +32,8 @@ def fetch_simplenote_notes(settings_path):
     nc = NoteCreator(settings)
     
     print("Creating " + str(len(my_notes)) + " notes...")
+    print("WARNING: naming conflicts may occur if adding new files during this time")
+    print("(this is a compromise to speed up the process)")
     for note in my_notes:
         # create note
         nc.create_note(note)
