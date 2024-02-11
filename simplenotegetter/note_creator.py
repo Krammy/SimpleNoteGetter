@@ -1,6 +1,7 @@
 import os, re
 from datetime import datetime, timedelta
-from simplenotegetter.note import Note
+from .note import Note
+from .benchmarker import Benchmarker
 
 id_getter = re.compile(r'^\d{12}')
 
@@ -44,10 +45,18 @@ class NoteCreator:
     
     def create_note(self, note: Note):
         # get free note path
+        note_path_benchmarker = Benchmarker()
+        note_path_benchmarker.start_record()
         note_path = self.get_note_path(note.creation_datetime, note.title)
+        note_path_benchmarker.end_record()
+        print(f"Fetched note path in {note_path_benchmarker.get_elapsed_seconds()} seconds")
         
+        create_note_benchmarker = Benchmarker()
+        create_note_benchmarker.start_record()
         # create markdown file
         with open(note_path, 'w', encoding='utf-8') as new_note:
             new_note.write(note.content)
-
+        create_note_benchmarker.end_record()
+        print(f"Created note in {create_note_benchmarker.get_elapsed_seconds()} seconds")
+        
         print('Created note "' + os.path.basename(note_path) + '"')
