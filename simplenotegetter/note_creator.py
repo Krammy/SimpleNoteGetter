@@ -1,7 +1,7 @@
 import os, re
 from datetime import datetime, timedelta
-from .note import Note
-from .benchmarker import Benchmarker
+from note import Note
+from benchmarker import Benchmarker
 
 id_getter = re.compile(r'^\d{12}')
 
