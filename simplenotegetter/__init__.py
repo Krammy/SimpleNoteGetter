@@ -1,7 +1,7 @@
 import simplenote, os
-from .note_creator import NoteCreator
-from .note import Note
-from .settings import Settings
+from note_creator import NoteCreator
+from note import Note
+from settings import Settings
 
 # https://simplenotepy.readthedocs.io/en/latest/api.html#simperium-api-note-object
 
