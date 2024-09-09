@@ -2,8 +2,6 @@ import os, re
 from datetime import datetime, timedelta
 from simplenotegetter.note import Note
 
-id_getter = re.compile(r'^\d{12}')
-
 class NoteCreator:
     def __init__(self, settings):
         self.settings = settings
@@ -14,8 +12,8 @@ class NoteCreator:
     def ID_exists(self, id: str):
         for dirpath, dirnames, filenames in os.walk(self.settings.search_dir):
             for filename in filenames:
-                my_id = id_getter.search(filename)
-                if my_id != None and id == my_id.group():
+                my_id = filename[:12]
+                if id == my_id:
                     return True
         return False
     
