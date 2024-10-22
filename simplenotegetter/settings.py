@@ -10,3 +10,4 @@ class Settings:
         self.password = settings['password']
         self.search_dir = settings['search_dir']
         self.output = settings['output']
+        self.inbox_note = settings['inbox_note']
