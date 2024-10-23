@@ -1,10 +1,18 @@
 from datetime import datetime
-import os
+import re
+
+title_getter = re.compile(r'^(?:#+ )?([^.?\n]+)')
 
 def get_title(content):
-    note_title = content.partition("\n")[0]
-    illegal_characters = ['*', '"', '\\', '/', '<', '>', ':', '|', '?']
+    has_note_title = title_getter.search(content)
 
+    if (not has_note_title):
+        return ""
+
+    note_title = has_note_title.group()
+    
+    illegal_characters = ['*', '"', '\\', '/', '<', '>', ':', '|', '?']
+    
     for character in illegal_characters:
         note_title = note_title.replace(character, '')
     
