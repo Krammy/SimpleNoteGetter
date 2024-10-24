@@ -39,8 +39,6 @@ def get_tags_string(tags):
     return tags_string
 
 def get_note_text(content, tags):
-    
-    title = get_title(content)
     body = get_body(content)
     tags_string = get_tags_string(tags)
     
@@ -48,12 +46,6 @@ def get_note_text(content, tags):
 
     if tags_string != "":
         note_text += tags_string
-
-        if title != "" or body != "":
-            note_text += "\n\n"
-    
-    if title != "":
-        note_text += "# " + title
 
         if body != "":
             note_text += "\n\n"
