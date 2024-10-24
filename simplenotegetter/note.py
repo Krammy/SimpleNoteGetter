@@ -1,7 +1,7 @@
 from datetime import datetime
 import re
 
-title_getter = re.compile(r'^(?:#+ )?([^.?\n]+)')
+title_getter = re.compile(r'(?:#+ )?([A-Za-z][^.?\n]+)')
 
 def get_title(content):
     has_note_title = title_getter.search(content)
