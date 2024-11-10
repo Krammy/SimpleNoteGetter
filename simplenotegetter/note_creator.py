@@ -1,6 +1,6 @@
 import os, re
 from datetime import datetime, timedelta
-from simplenotegetter.note import Note
+from note import Note
 
 class NoteCreator:
     def __init__(self, settings):
@@ -48,7 +48,7 @@ class NoteCreator:
             new_note.write(note.content)
 
         # add note to inbox file
-        with open(self.settings.inbox_note, 'a') as inbox_note:
+        with open(self.settings.inbox_note, 'a', encoding='utf-8') as inbox_note:
             # Append the line to the file
             link = "[[" + note.file_name + "]]"
             if note.file_name != note.title and note.title != "":
