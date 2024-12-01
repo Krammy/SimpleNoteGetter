@@ -25,8 +25,11 @@ class NoteCreator:
                 return note_id
             dt += timedelta(minutes=1)
 
+    def get_note_name(self, note):
+        return note.title[:90].rstrip()
+    
     def get_note_path(self, note):
-        name = note.title
+        name = self.get_note_name(note)
         unique_id = self.get_unique_id(note)
 
         if name == "":
