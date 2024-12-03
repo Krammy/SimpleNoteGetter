@@ -26,20 +26,20 @@ class NoteCreator:
             dt += timedelta(minutes=1)
 
     def get_file_name(self, note):
-        name = note.name
+        note_title = note.title
         unique_id = self.get_unique_id(note)
 
-        if name == "":
+        if note_title == "":
             file_name = unique_id
         else:
-            file_name = unique_id + " " + name
-
+            file_name = unique_id + " " + note_title
+        
         # limit file name length to 255 characters
         return file_name[:255].rstrip()
 
     def get_note_path(self, note):
         return os.path.join(self.settings.output, self.get_file_name(note) + ".md")
-    
+
     def create_note(self, note: Note):
         # get creation date
         note_path = self.get_note_path(note)
