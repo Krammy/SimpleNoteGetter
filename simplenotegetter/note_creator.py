@@ -25,11 +25,8 @@ class NoteCreator:
                 return note_id
             dt += timedelta(minutes=1)
 
-    def get_note_name(self, note):
-        return note.title[:90].rstrip()
-    
-    def get_note_path(self, note):
-        name = self.get_note_name(note)
+    def get_file_name(self, note):
+        name = note.name
         unique_id = self.get_unique_id(note)
 
         if name == "":
@@ -37,11 +34,12 @@ class NoteCreator:
         else:
             file_name = unique_id + " " + name
 
-        note.file_name = file_name
-        file_location = os.path.join(self.settings.output, note.file_name + ".md")
-        
-        return file_location
+        # limit file name length to 255 characters
+        return file_name[:255].rstrip()
 
+    def get_note_path(self, note):
+        return os.path.join(self.settings.output, self.get_file_name(note) + ".md")
+    
     def create_note(self, note: Note):
         # get creation date
         note_path = self.get_note_path(note)
