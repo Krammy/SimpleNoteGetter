@@ -26,6 +26,11 @@ class NoteCreator:
             dt += timedelta(minutes=1)
 
     def get_file_name(self, note):
+        try:
+            return note.file_name
+        except:
+            pass
+        
         note_title = note.title
         unique_id = self.get_unique_id(note)
 
@@ -33,9 +38,10 @@ class NoteCreator:
             file_name = unique_id
         else:
             file_name = unique_id + " " + note_title
-        
+
         # limit file name length to 255 characters
-        return file_name[:255].rstrip()
+        note.file_name = file_name[:255].rstrip()
+        return note.file_name
 
     def get_note_path(self, note):
         return os.path.join(self.settings.output, self.get_file_name(note) + ".md")
