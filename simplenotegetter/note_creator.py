@@ -1,30 +1,12 @@
 import os, re
 from datetime import datetime, timedelta
 from note import Note
+from uniqueidgetter import unique_id_getter
 
 class NoteCreator:
     def __init__(self, settings):
         self.settings = settings
     
-    def get_note_id(self, creation_datetime):
-        return creation_datetime.strftime('%Y%m%d%H%M')
-    
-    def ID_exists(self, id: str):
-        for dirpath, dirnames, filenames in os.walk(self.settings.search_dir):
-            for filename in filenames:
-                my_id = filename[:12]
-                if id == my_id:
-                    return True
-        return False
-    
-    def get_unique_id(self, note):
-        dt = note.creation_datetime
-        while True:
-            note_id = self.get_note_id(dt)
-            if not self.ID_exists(note_id):
-                return note_id
-            dt += timedelta(minutes=1)
-
     def get_file_name(self, note):
         try:
             return note.file_name
@@ -32,15 +14,15 @@ class NoteCreator:
             pass
         
         note_title = note.title
-        unique_id = self.get_unique_id(note)
+        unique_id = unique_id_getter.get_unique_id()
 
         if note_title == "":
             file_name = unique_id
         else:
             file_name = unique_id + " " + note_title
 
-        # limit file name length to 255 characters
-        note.file_name = file_name[:255].rstrip()
+        # limit file name length to 250 characters (255 max, 250 to be safe)
+        note.file_name = file_name[:250].rstrip()
         return note.file_name
 
     def get_note_path(self, note):

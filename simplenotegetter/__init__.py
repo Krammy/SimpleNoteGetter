@@ -1,17 +1,16 @@
 import simplenote, os
 from note_creator import NoteCreator
 from note import Note
-from settings import Settings
+from settings import settings
 
 # https://simplenotepy.readthedocs.io/en/latest/api.html#simperium-api-note-object
 
 def sort_by_creation_date(note: Note):
     return note.creation_datetime
 
-def fetch_simplenote_notes(settings_path):
+def fetch_simplenote_notes():
+    print("WARNING: do not add inbox notes during this time to avoid ID overlap\n")
     print("Logging into Simplenote...")
-    settings = Settings(settings_path)
-    
     sn = simplenote.Simplenote(settings.user, settings.password)
     
     print("Fetching notes...")
@@ -39,6 +38,4 @@ def fetch_simplenote_notes(settings_path):
         sn.trash_note(note.key)
 
 if __name__ == "__main__":
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    settings_path = os.path.join(current_dir, 'settings.json')
-    fetch_simplenote_notes(settings_path)
+    fetch_simplenote_notes()
