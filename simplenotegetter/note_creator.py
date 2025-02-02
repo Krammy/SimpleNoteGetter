@@ -39,9 +39,9 @@ class NoteCreator:
         # add note to inbox file
         with open(self.settings.inbox_note, 'a', encoding='utf-8') as inbox_note:
             # Append the line to the file
-            link = "[[" + note.file_name + "]]"
+            link = "[](<" + note.file_name + ".md>]"
             if note.file_name != note.title and note.title != "":
-                link = "[[" + note.file_name + "|" + note.title + "]]"
+                link = "[" + note.title + "](<" + note.file_name + ".md>)"
             inbox_note.write("\n- " + link + ".")
         
         print('Created note "' + os.path.basename(note_path) + '"')
