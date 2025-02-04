@@ -14,7 +14,7 @@ class NoteCreator:
             pass
         
         note_title = note.title
-        unique_id = unique_id_getter.get_unique_id()
+        unique_id = unique_id_getter.get_unique_id(note.creation_datetime)
 
         if note_title == "":
             file_name = unique_id

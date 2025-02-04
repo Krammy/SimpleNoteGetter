@@ -37,8 +37,9 @@ class UniqueIDGetter:
     def get_id_from_datetime(self, dt):
         return dt.strftime('%Y%m%d%H%M')
 
-    def get_unique_id(self):
-        dt = datetime.now()
+    def get_unique_id(self, dt=None):
+        if dt is None:
+            dt = datetime.now()
         while True:
             note_id = self.get_id_from_datetime(dt)
             if not self.ID_exists(note_id):
