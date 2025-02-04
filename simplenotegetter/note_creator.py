@@ -7,6 +7,30 @@ class NoteCreator:
     def __init__(self, settings):
         self.settings = settings
     
+    def get_title_from_content(self, note):
+        # get first sentence
+        content = note.content
+        content = content.lstrip()
+        first_line = note.content.split("\n", 1)[0]
+        first_line = first_line.split(".", 1)[0]
+        first_line = first_line.rstrip()
+
+        # sanitise the title for file names
+        new_title = first_line.replace('"', "'")
+        new_title = re.sub(r'[/:]', '-', new_title)
+        new_title = re.sub(r'[\[\]*\\<>|?]', '', new_title)
+
+        id_length = 13
+        max_title_length = 64
+        max_total_length = max_title_length - id_length
+
+        if len(new_title) > max_total_length:
+            new_title = new_title[:max_total_length]
+            # remove any extra if necessary
+            new_title = new_title.rstrip()
+        
+        return new_title
+
     def get_file_name(self, note):
         try:
             return note.file_name
@@ -14,6 +38,9 @@ class NoteCreator:
             pass
         
         note_title = note.title
+        if note_title == "":
+            note_title = self.get_title_from_content(note)
+        
         unique_id = unique_id_getter.get_unique_id(note.creation_datetime)
 
         if note_title == "":
